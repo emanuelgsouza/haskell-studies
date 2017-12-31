@@ -1,4 +1,4 @@
-module Main where
+module Teste where
 
 -- Exemplo de uso de tipagem
 maiorQue :: Int -> Int -> Bool
