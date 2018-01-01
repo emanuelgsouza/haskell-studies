@@ -4,4 +4,5 @@ Repositório com meus estudos em Haskell
 
 ## Conceitos
 
-- [Tipos na linguagem](./concepts/types.md)
+- [Funções](./concepts/funcoes.md)
+- [Tipos](./concepts/types.md)
