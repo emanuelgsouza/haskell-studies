@@ -55,3 +55,58 @@ São interfaces para os tipos na linguagem Haskell. Elas provem os comportamento
 - **Bounded**: interface com comportamentos para tipos que possuem limites - máximo e mínimo.
 
 - **Num**: interface para todos os tipos numéricos. Derivado desse cara, temos o **Integral** e o **Floating** que integra os números inteiros e de ponto flutuante respectivamente.
+
+## Criando tipos
+
+Para criar um novo tipo usamos a palavra reservada `data` ou `newType`. A diferença entre as duas é a [lazy evaluation](https://wiki.haskell.org/Lazy_evaluation), presente em *data*, mas não em *newType*.
+
+```haskell
+data Dia = Segunda | Terca | Quarta | Quinta | Sexta | Sabado | Domingo
+```
+
+Podemos ler o código acima como: o tipo dia pode aceitar os valores: Segunda, ou Terça... Cada possibilidade acima para o tipo Dia é conhecido como `value constructor`. Melhores referências [aqui](https://www.schoolofhaskell.com/school/to-infinity-and-beyond/pick-of-the-week/sum-types).
+
+Cada *value constructor* pode ter um valor específico, como exemplificado abaixo:
+
+```haskell
+data Pessoa = Fisica String Int | Juridica String
+```
+
+Como podemos ver, cada *value constructor* é uma função que pode receber ou não parâmetros. Há uma forma de nomear estes parâmetros usando o conceito de `record syntax`:
+
+```haskell
+-- sem record syntax
+data Ponto = Ponto Double Double
+
+-- com record syntax
+data Ponto = Ponto {xval,yval :: Double}
+```
+
+Record syntax são interessantes porque eles provem uma forma de se ter funções que nos ajudam acessar aquele dado. Tais funções são conhecidas como funções de projeção.
+
+Após criado, podemos usar em nossas funções:
+
+```haskell
+agenda :: Dia -> String
+agenda Domingo = "TV..."
+agenda Sabado = "Festa"
+agenda _ = "Trabalho"
+```
+
+Você reparou que eu criei diferentes assinaturas para a função? Conheça mais um conceito: `pattern matching`.
+
+## Patter matching
+
+Cada função em Haskell possui uma assinatura, que são os parâmetros que eu posso passar para ela. Mas como delimitar determinados comportamentos para uma mesma função, quando passados determinados parâmetros? É para isso que serve o pattern matching.
+
+Vamos ao exemplo da função anterior:
+
+1. Quando eu passo um *value constructor* Domingo, ele me retorna uma string 'TV...'
+
+2. Quando eu passo um *value constructor* Sábado, ele me retorna uma string 'Festa...'
+
+3. E por fim, o `_` indica que qualquer valor válido passado, que não esteja constando nos *patterns* anteriores, retorna uma string 'Trabalho'.
+
+O que é importante entender, é que se eu tivesse movido a última linha para cima, mesmo eu passando *value constructor* Sábado ou Domingo, eu obterei como resposta a string 'Trabalho'. Então a `orderm do pattern matching importa`
+
+[Mais referências aqui](http://haskell.tailorfontela.com.br/syntax-in-functions#pattern-matching).
